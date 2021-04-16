@@ -1,0 +1,216 @@
+//coded by: pranonrahman-------------------------------------
+//-----------------------------------------------------------
+//-----------------------------------------------------------
+#include<bits/stdc++.h>
+using namespace std;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+#define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
+
+#define O_O ios_base::sync_with_stdio(0); cin.tie(NULL)
+#define endl '\n'
+#define PI acos(-1.0)
+#define CASE(n) cout << "Case " << n << ": "
+#define CASE_(n) cout << "Case " << n << endl
+#define FIXED(n) cout << fixed << setprecision(n)
+#define testPrint(n) cout << "test" << n << endl;
+
+
+//try to make less precision
+//dont divide or calculate root or log
+//try to make less comparation
+
+struct point{
+    double x,y;
+    double angle;
+};
+
+point p0;
+
+double squareDistance(double x1,double y1, double x2, double y2)
+{
+    return ((x1-x2)*(x1-x2)) + ((y2-y1)*(y2-y1));
+}
+
+long long squareDistance(long long x1,long long y1, long long x2, long long y2)
+{
+    return ((x1-x2)*(x1-x2)) + ((y2-y1)*(y2-y1));
+}
+
+int checkParallel(point a,point b,point c, point d)
+{
+    double dx1 = a.x-b.x;
+    double dy1 = a.y-b.y;
+    double dx2 = c.x-d.x;
+    double dy2 = c.y-d.y;
+
+    if(dx1*dy2==dx2*dy1)    return 1;
+    else                    return 0;
+}
+
+double slope(double x1,double y1, double x2, double y2)
+{
+    return (1.0*(y2-y1))/(x2-x1);
+}
+
+double slope(point a,point b)
+{
+    return (1.0*(b.y-a.y))/(b.x-a.x);
+}
+
+double areaOfTriangle(point a,point b,point c)
+{
+    double x1 = a.x;
+    double y1 = a.y;
+    double x2 = b.x;
+    double y2 = b.y;
+    double x3 = c.x;
+    double y3 = c.y;
+    double area = x1*y2 - x1*y3 - y1*x2 + y1*x3 + x2*y3 - x3*y2;
+    return area/2;
+}
+//might be different according to the problem
+int isLeft(point a, point b, point c)
+{
+    double area = areaOfTriangle(a,b,c);
+    if(area==0) return 0;
+    else if(area>0) return 1;
+    else            return -1;
+}
+
+int onSegment(point a, point b, point c)
+{
+    if(isLeft(a,b,c)==0)
+    {
+        if(a.x<=c.x and c.x<=b.x and a.y<= c.y and c.y <= b.y)  return 1;
+        else return 0;
+    }
+    else return 0;
+}
+
+
+bool cmp(point a,point b)
+{
+    int sign = isLeft(p0,a,b);
+    if(sign==0)
+    {
+        if(squareDistance(p0.x,p0.y,a.x,a.y)<=squareDistance(p0.x,p0.y,b.x,b.y))    return 1;
+        else    return 0;
+    }
+    else if(sign==-1)   return 0;
+    else return 1;
+}
+
+
+point secondTop(stack<point>&stk)
+{
+    point temp = stk.top();
+    stk.pop();
+    point ret = stk.top();
+    stk.push(temp);
+    return ret;
+}
+
+vector<point> convexHull(vector<point>&v)
+{
+    //cout << "welcome to convex hull\n";
+    int n = v.size();
+    vector<point>convexHullPoint;
+    double xm=1.0*INT_MAX,ym=1.0*INT_MAX;
+    int index = 0;
+    for(int i=0;i<n;i++)
+    {
+        double x = v[i].x;
+        double y = v[i].y;
+        if(y<=ym)
+        {
+            if(y==ym and x<xm)
+            {
+                ym=y;
+                xm=x;
+                index = i;
+            }
+            else if(y<ym)
+            {
+                ym = y;
+                xm = x;
+                index = i;
+            }
+        }
+    }
+
+    //cout << "Done\n";
+    swap(v[0],v[index]);
+    p0 = v[0];
+    sort(v.begin()+1,v.end(),cmp);
+    //for(int i=0;i<n;i++)    cout << v[i].x << ' ' << v[i].y << endl;
+    //cout << "Done\n";
+    int arrSize = 1;
+    for(int i=1;i<n;i++)
+    {
+        cout <<i << ' ' << arrSize<< endl;
+        while(i<n-1)
+        {
+            if(isLeft(p0,v[i],v[i+1])==0)
+                i++;
+            else break;
+        }
+        //cout << arrSize << endl;
+        v[arrSize]=v[i];
+        arrSize++;
+    }
+
+    if(arrSize<3)   return convexHullPoint;
+
+    stack<point>stk;
+    stk.push(v[0]);
+    stk.push(v[1]);
+    stk.push(v[2]);
+
+    for(int i=3;i<arrSize;i++)
+    {
+        while(isLeft(secondTop(stk),stk.top(),v[i])!=1)
+        {
+            stk.pop();
+        }
+        stk.push(v[i]);
+    }
+    while(stk.size())
+    {
+        convexHullPoint.push_back(stk.top());
+        stk.pop();
+    }
+    //cout << convexHullPoint.size() << endl;
+    return convexHullPoint;
+}
+
+int main()
+{
+//    O_O;
+    long long t=1;
+    cin >> t;
+    long long T = t;
+    while(t--)
+    {
+        //write your code here
+        int n;
+        cin >> n;
+        vector<point>v;
+
+        for(int i=0;i<n;i++)
+        {
+            point temp;
+            double x,y;
+            cin >> x >> y;
+            temp.x = 1.0*x;
+            temp.y = 1.0*y;
+            v.push_back(temp);
+        }
+        vector<point>points = convexHull(v);
+        for(int i=0;i<points.size();i++) cout << points[i].x << ' ' << points[i].y << endl;
+    }
+    return 0;
+}
+
+

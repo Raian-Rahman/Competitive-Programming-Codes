@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+
+int main() {
+    int t;
+    scanf("%d", &t);
+ 
+    while (t--) {
+        int n;
+        scanf("%d", &n);
+ 
+        vector<int> arr(n+1);
+        multiset<int> S;
+        for (int i = 1; i <= n; i ++) {
+            scanf("%d", &arr[i]);
+            S.insert(arr[i]);
+        }
+ 
+        for (int i = 1; i <= n; i ++)
+            arr[i] += arr[i-1];
+ 
+        int count = 0;
+        for (int l = 1; l <= n; l ++) {
+            for (int r = l+1; r <= n; r ++) {
+                if (S.empty())
+                    break;
+ 
+                int sp = arr[r] - arr[l-1];
+ 
+                count += S.count(sp);
+                S.erase(sp);
+            }
+        }
+ 
+        printf("%d\n", count);
+    }
+ 
+    return 0;
+}

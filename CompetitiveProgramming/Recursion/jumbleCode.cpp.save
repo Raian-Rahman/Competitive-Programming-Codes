@@ -1,0 +1,22 @@
+import java.util.Scanner;
+public class RecursivePatternPrint{
+    public static Scanner input = new Scanner(System.in);
+    static void generateAllPossibleCombination(String inputString,int position,int previousBit,int representationSize){
+        if(position==representationSize){
+            System.out.println(inputString);
+            return;
+        }
+        if(previousBit==1){
+            generateAllPossibleCombination(inputString+'0',position+1,0,representationSize);
+        }
+        else{
+            generateAllPossibleCombination(inputString+'1',position+1,1,representationSize);
+            generateAllPossibleCombination(inputString+'0',position+1,0,representationSize);
+        }
+    }
+    public static void main(String[] args){
+        int representationSize;
+        representationSize = input.nextInt();
+        generateAllPossibleCombination("",0,0,representationSize);
+    }
+}

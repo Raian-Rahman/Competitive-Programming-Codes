@@ -1,0 +1,64 @@
+//coded by: pranonrahman-------------------------------------
+//-----------------------------------------------------------
+//-----------------------------------------------------------
+#include<bits/stdc++.h>
+using namespace std;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+#define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
+
+#define O_O ios_base::sync_with_stdio(0); cin.tie(NULL)
+#define endl '\n'
+#define PI acos(-1.0)
+#define CASE(n) cout << "Case " << n << ": "
+#define CASE_(n) cout << "Case " << n << endl
+#define FIXED(n) cout << fixed << setprecision(n)
+#define testPrint(n) cout << "test" << n << endl;
+
+
+int main()
+{
+    O_O;
+    long long t=1;
+    cin >> t;
+    long long T = t;
+    while(t--)
+    {
+        //write your code here
+        int c0,c1,c2;
+        cin >> c0 >> c1 >> c2;
+        for(int i=0;i<=c2 and c2>0;i++) cout << '1' ;
+        for(int i=0;i<=c0 and c0>0;i++) cout << '0' ;
+        if(c0 and c2)   c1--;
+        if(c0 and c1)
+        {
+            for(int i=0;i<c1;i++)
+            {
+                if(i%2==0)  cout << '1';
+                else        cout << '0';
+            }
+        }
+        else if(c1 and c2)
+        {
+            for(int i=0;i<c1;i++)
+            {
+                if(i%2==0)  cout << '1';
+                else        cout << '0';
+            }
+        }
+        else if(c1)
+        {
+            cout << 1 << ' ';
+            for(int i=0;i<c1;i++)
+            {
+                if(i%2==0)  cout << 0 << ' ';
+                else        cout << 1 << ' ';
+            }
+        }
+        cout <<  endl;
+    }
+    return 0;
+}
+
+

@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define FAST ios_base::sync_with_stdio(0); cin.tie(NULL)
+#define PI acos(-1.0)
+#define TEST(n) cout<<"dhukse"<<n<<'\n'
+#define endl '\n'
+#define FILEREAD freopen("input.txt","r",stdin)
+#define FIXED(n) cout << fixed << setprecision(n);
+#define CASE(n) cout<<"Case " << n << ": ";
+long long Set(long long N,long long pos){ return N=N | (1<<pos);}
+long long reset(long long N,long long pos){return N= N & ~(1<<pos);}
+bool check(long long N,long long pos){return (bool)(N & (1<<pos));}
+long long min(long long a, long long b){if(a<b)return a;else return b;}
+long long max(long long a, long long b){if(a>b)return a;else return b;}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////In the name of almighty ALLAH/////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////Coded By: pranonrahman////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int main()
+{
+    //FAST;
+    long long t=1;
+    cin >> t;
+    long long T = t;
+    while(t--)
+    {
+        long long n,k;
+        cin >> n >> k;
+        long long arr[n+5];
+        for(long long i=0;i<n;i++)    cin >> arr[i];
+        long long rem=k;
+        for(long long i=0;i<n-1 and rem>0;i++)
+        {
+            long long cur=i;
+            for(long long j=i+1;j<n and (j-i)<=rem;j++)
+            {
+                if(arr[j]<arr[cur])      cur=j;
+            }
+            for(long long j=cur;j>i;j--)
+            {
+                swap(arr[j],arr[j-1]);
+            }
+            rem-=(cur-i);
+        }
+        for(long long i=0;i<n;i++)    cout << arr[i] << ' ';
+        cout << endl;
+
+    }
+    return 0;
+}
+

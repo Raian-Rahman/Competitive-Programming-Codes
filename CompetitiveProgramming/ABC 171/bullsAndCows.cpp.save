@@ -1,0 +1,21 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    string s1,s2;
+    cin >> s1 >> s2;
+    int c1=0,c2=0;
+    map<int,int>mp1,mp2;
+    for(int i=0;i<4;i++)
+    {
+        if(s1[i]==s2[i])    cnt++;
+        mp1[s1[i]-48]=i;
+        mp2[s2[i]-48]=i;
+    }
+    for(auto it:mp1)
+    {
+        if(it.second!=mp2[it.f])
+    }
+    return 0;
+}

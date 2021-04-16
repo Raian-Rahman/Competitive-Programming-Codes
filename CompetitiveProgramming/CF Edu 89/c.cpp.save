@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define O_O ios_base::sync_with_stdio(0); cin.tie(NULL)
+#define endl '\n'
+
+int main()
+{
+    O_O;
+    long long t=1;
+    cin >> t;
+    long long T = t;
+    while(t--)
+    {
+        long long n,m,k;
+        cin >> n >> k >> m;
+        long long flag=0;
+        long long x1 =0,x2=0;
+        long long cnt=0,cnt1=0,len =0;
+        for(long long i=0;i<m;i++)
+        {
+            long long left,right;
+            cin >> left >> right;
+            if(left<=k and right>=k and flag==0)
+            {
+                flag=1;
+                x1=left;
+                x2=right;
+            }
+            else if(flag)
+            {
+                if(left<=x1 and right>=x1)   x1=left;
+                if(left<=x2 and right>=x2)   x2=right;
+            }
+        }
+        cout << x2-x1+1 << endl;
+    }
+    return 0;
+}
